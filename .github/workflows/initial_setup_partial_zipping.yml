@@ -29,7 +29,7 @@ jobs:
       run: docker cp session_container:/app/partial_sessions.zip partial_sessions.zip
 
     - name: Upload partial session data as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: partial_session_data
         path: partial_sessions.zip
