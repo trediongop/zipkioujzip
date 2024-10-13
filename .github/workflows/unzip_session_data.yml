@@ -1,1 +1,29 @@
+name: Unzip Session Data
 
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Log in to GHCR
+      run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+
+    - name: Pull Docker image
+      run: docker pull ghcr.io/your_username/your_image:tag
+
+    - name: Download partial session data artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: partial_session_data
+        path: partial_sessions.zip
+
+    - name: Run Docker container with session data
+      run: docker run -d --name session_container -v ${{ github.workspace }}/partial_sessions.zip:/app/partial_sessions.zip ghcr.io/your_username/your_image:tag
