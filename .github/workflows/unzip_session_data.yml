@@ -2,7 +2,7 @@ name: Unzip Session Data
 
 on:
   schedule:
-    - cron: '50 2 * * *'  # Runs daily at midnight UTC
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
   workflow_dispatch:
 
 jobs:
@@ -13,22 +13,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Pull Docker image
-      run: docker pull ghcr.io/nixegohshs5f4ef6vuun43f6/iaw4sm7rs56v3cy7rv66v4rfgu6yu843dawsmsrbitbpyv3125:yhf3gj79bt8kytv57vttv7awsmsrbitB0006-of-two
+    - name: Log in to GHCR
+      run: echo ${{ secrets.NEW_GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
-    - name: Download artifact directly
-      run: |
-        curl -L -o partial_sessions.zip https://github.com/bassoonblazar/testingnew/actions/runs/11314880586/artifacts/2050255175
-        ls -lh partial_sessions.zip
+    - name: Download partial session data artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: partial_session_data
 
-    - name: Check if zip file exists and its size
+    - name: Verify artifact download
       run: |
         if [ -f partial_sessions.zip ]; then
           echo "Download successful"
           unzip -l partial_sessions.zip
         else
           echo "Download failed"
+          exit 1
         fi
+
+    - name: Pull Docker image
+      run: docker pull ghcr.io/nixegohshs5f4ef6vuun43f6/iaw4sm7rs56v3cy7rv66v4rfgu6yu843dawsmsrbitbpyv3125:yhf3gj79bt8kytv57vttv7awsmsrbitB0006-of-two
 
     - name: Run Docker container with session data
       run: docker run -d --name session_container -v ${{ github.workspace }}/partial_sessions.zip:/app/partial_sessions.zip ghcr.io/nixegohshs5f4ef6vuun43f6/iaw4sm7rs56v3cy7rv66v4rfgu6yu843dawsmsrbitbpyv3125:yhf3gj79bt8kytv57vttv7awsmsrbitB0006-of-two
