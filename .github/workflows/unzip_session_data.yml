@@ -13,9 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Log in to GHCR
-      run: echo ${{ secrets.NEW_GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
-
     - name: Pull Docker image
       run: docker pull ghcr.io/your_username/your_image:tag
 
