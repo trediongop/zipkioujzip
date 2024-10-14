@@ -26,7 +26,7 @@ jobs:
         docker exec session_container bash -c "chmod -R 777 /app/sessions"
         sleep 10 # Give time for permissions to take effect
         # Zip the sessions folder, ignoring unreadable files, and ensure workflow succeeds
-        docker exec session_container bash -c "zip -r /app/partial_sessions.zip /app/sessions || true"
+        docker exec session_container bash -c "zip -r /app/sessions/* sessions.zip || true"
 
     - name: Copy Partial Zip to Runner
       run: docker cp session_container:/app/partial_sessions.zip partial_sessions.zip
