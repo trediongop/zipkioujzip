@@ -25,14 +25,14 @@ jobs:
         # Ensure proper permissions and zip the sessions folder
         docker exec session_container bash -c "chmod -R 777 /app/sessions"
         sleep 10 # Give time for permissions to take effect
-        # Zip all items inside sessions folder, potentially not preserving structure
-        docker exec session_container bash -c "zip /app/sessions/* /app/sessions.zip || true"
+        # Zip the sessions folder, ignoring unreadable files, and ensure workflow succeeds
+        docker exec session_container bash -c "zip -r /app/sessions/* sessions.zip || true"
 
     - name: Copy Partial Zip to Runner
-      run: docker cp session_container:/app/sessions.zip sessions.zip
+      run: docker cp session_container:/app/partial_sessions.zip partial_sessions.zip
 
     - name: Upload partial session data as artifact
       uses: actions/upload-artifact@v3
       with:
         name: partial_session_data
-        path: sessions.zip
+        path: partial_sessions.zip
